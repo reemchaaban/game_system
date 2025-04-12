@@ -18,7 +18,7 @@ item_feature_map = mappings['item_feature_map']
 with open('model/item_features_matrix.pkl', 'rb') as f:
     item_features_matrix = pickle.load(f)
 
-games_df = pd.read_csv('model/game_library_data.csv')
+games_df = pd.read_csv('utils/game_library_data.csv')
 
 def fetch_game_details(game_id):
     match = games_df[games_df['game_id'] == int(game_id)]
@@ -34,8 +34,6 @@ def fetch_game_details(game_id):
     else:
         return {'game_id': int(game_id), 'name': f"(Game ID {game_id} not found)"}
     
-
-
 
 def generate_recommendations(user_input):
 
