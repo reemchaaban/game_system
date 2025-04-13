@@ -49,7 +49,7 @@ def build_user_feature_matrix(user_input):
     for gid, hours in user_input.items():
         details = fetch_game_details(gid)
         if 'genres' in details and 'tags' in details:
-            price = float(details.get('price', 0.0))
+            price = float(details.get('price', 0.0)) / 100
             rating = float(details.get('rating_ratio', 0.0))
 
             scaled_vals = scaler.transform(pd.DataFrame([[price, rating]], columns=['price', 'rating_ratio']))[0]
