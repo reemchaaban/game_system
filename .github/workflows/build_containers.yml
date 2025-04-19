@@ -1,0 +1,43 @@
+name: Selective Docker build and push
+
+on:
+  push:
+    branches:
+    - main
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Set up changed folders
+        id: changes
+        run: |
+          echo "CHANGED_IEP1=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '^IEP1/' || true)" >> $GITHUB_ENV
+          echo "CHANGED_IEP2=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '^IEP2/' || true)" >> $GITHUB_ENV
+
+      - name: Login to DockerHub
+        if: env.CHANGED_IEP1 || env.CHANGED_IEP2
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push IEP1 image
+        if: env.CHANGED_IEP1
+        uses: docker/build-push-action@v5
+        with:
+          context: ./IEP1
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/iep1:latest
+
+      - name: Build and push IEP2 image
+        if: env.CHANGED_IEP2
+        uses: docker/build-push-action@v5
+        with:
+          context: ./IEP2
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/iep2:latest 
