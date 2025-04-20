@@ -8,7 +8,7 @@
 This project was developed to provide **Digital Game Storefronts and Services** (e.g. [Steam](https://store.steampowered.com/), [PSN](https://www.playstation.com/)) with ML models that provide business benefits. These ML models were containerized then deployed on [Railway](https://railway.com/) and linked to a user-friendly UI utilizing Streamlit, accessible via browser.
 ## Dataset
 
-Using [`SteamSpy`](https://steamspy.com/) and [`SteamDB`](https://steamdb.info/) API, data on the top 200 most played games on Steam was collected. The training datasets were built based off these 200 games, as explained below.
+Using [`SteamSpy`](https://steamspy.com/) API and [`SteamDB`](https://steamdb.info/), data on the top 200 most played games on Steam was collected. The training datasets were built based off these 200 games, as explained below.
 
 ## Internal Endpoints (IEPs)
 
@@ -28,7 +28,7 @@ An LSTM model that predicts the number of online players on a given date in the 
 
 -  `Output`: A predicted number of online players (e.g. 5,385,754 online players).
 
--  `Dataset`: For each of the 200 games, the daily player count was collected from the `SteamDB` API from a given start date (chosen based on the existence of player data for more recent games).
+-  `Dataset`: For each of the 100 games, the daily player count was manually collected from the `SteamDB` API from a given start date (chosen based on the existence of player data for more recent games).
 
 - The model accounts for weekends and holidays to provide more accurate predictions.
  
