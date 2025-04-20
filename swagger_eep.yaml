@@ -1,0 +1,163 @@
+openapi: 3.0.3
+info:
+  title: Game Analytics EEP API
+  description: |
+    External Endpoint (EEP) that connects to two Internal Endpoints (IEP):
+    - IEP #1: Predicts player count for a given date.
+    - IEP #2: Recommends games based on a user's game library.
+  version: "1.0.0"
+servers:
+  - url: https://eep-503n.up.railway.app
+    description: Production EEP Server
+
+paths:
+  /:
+    get:
+      summary: Check if the EEP is running
+      responses:
+        '200':
+          description: EEP is live and healthy.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: EEP is running.
+
+  /get-player-count:
+    post:
+      summary: Get predicted player count for a future date (calls IEP1)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - date
+              properties:
+                date:
+                  type: string
+                  format: date
+              example:
+                date: "2025-04-06"
+      responses:
+        '200':
+          description: Player count prediction returned successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  player_count: 5382303.1
+        '400':
+          description: Missing or invalid input.
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  error: "Missing 'date' in request body."
+        '500':
+          description: Server error or IEP request failed.
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  error: "Something went wrong."
+
+  /get-recommendations:
+    post:
+      summary: Get game recommendations based on player game history (calls IEP2)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties:
+                type: number
+              example:
+                "391540": 142
+                "251570": 126
+                "365590": 215
+      responses:
+        '200':
+          description: Game recommendations generated successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  recommendations:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        game_id:
+                          type: integer
+                        name:
+                          type: string
+                        genres:
+                          type: array
+                          items:
+                            type: string
+                        price:
+                          type: number
+                        rating_ratio:
+                          type: number
+                        tags:
+                          type: array
+                          items:
+                            type: string
+                example:
+                  recommendations:
+                    - game_id: 261550
+                      name: "Mount & Blade II: Bannerlord"
+                      genres: ["Action", "Indie", "RPG", "Simulation", "Strategy"]
+                      price: 49.99
+                      rating_ratio: 7.22
+                      tags: ["Medieval", "Strategy", "Open World", "RPG", "War", "Sandbox", "Multiplayer", "Singleplayer", "Action", "Character Customization", "Simulation", "Moddable", "Adventure", "Horses", "Realistic", "Third Person", "Historical", "First-Person", "Great Soundtrack", "Early Access"]
+                    - game_id: 1468810
+                      name: "鬼谷八荒 Tale of Immortal"
+                      genres: ["Action", "Adventure", "Indie", "RPG", "Simulation"]
+                      price: 19.99
+                      rating_ratio: 1.136
+                      tags: ["Management", "Singleplayer", "Simulation", "Mythology", "Sandbox", "Tactical RPG", "RPG", "Choose Your Own Adventure", "Dating Sim", "Action", "Adventure", "Exploration", "Story Rich", "2D", "Hack and Slash", "Action RPG", "Procedural Generation", "Hand-drawn", "Action-Adventure", "Strategy RPG"]
+                    - game_id: 301520
+                      name: "Robocraft"
+                      genres: ["Action", "Indie", "Massively Multiplayer", "RPG", "Simulation", "Free To Play"]
+                      price: 0.0
+                      rating_ratio: 2.708
+                      tags: ["Free to Play", "Robots", "Building", "Multiplayer", "Action", "Shooter", "PvP", "Massively Multiplayer", "Sandbox", "Crafting", "Third-Person Shooter", "Sci-fi", "Strategy", "Simulation", "Early Access", "Indie", "Open World", "Funny", "Adventure", "RPG"]
+                    - game_id: 322330
+                      name: "Don't Starve Together"
+                      genres: ["Action", "Adventure", "Indie", "RPG", "Simulation", "Strategy"]
+                      price: 14.99
+                      rating_ratio: 20.515
+                      tags: ["Survival", "Open World Survival Craft", "Multiplayer", "Co-op", "Open World", "Adventure", "Crafting", "Online Co-Op", "Sandbox", "Difficult", "Indie", "2D", "Atmospheric", "Funny", "Survival Horror", "Strategy", "Horror", "Singleplayer", "Action", "Rogue-like"]
+                    - game_id: 242760
+                      name: "The Forest"
+                      genres: ["Action", "Adventure", "Indie", "Simulation"]
+                      price: 19.99
+                      rating_ratio: 21.425
+                      tags: ["Open World Survival Craft", "Survival", "Open World", "Horror", "Crafting", "Adventure", "Building", "Survival Horror", "First-Person", "Action", "Exploration", "Sandbox", "Singleplayer", "Atmospheric", "Simulation", "Gore", "Realistic", "Indie", "Zombies", "Early Access"]
+        '400':
+          description: Invalid input format.
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  error: "Invalid input. You must provide a dictionary of game IDs and playtime."
+        '500':
+          description: Server error or IEP request failed.
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  error: "Something went wrong."

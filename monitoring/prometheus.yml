@@ -1,0 +1,15 @@
+global:
+  scrape_interval: 5s  
+
+scrape_configs:
+  - job_name: 'player-count-model'
+    scrape_interval: 3s
+    metrics_path: '/'
+    static_configs:
+      - targets: ['f8cb-35-243-176-77.ngrok-free.app']  
+
+  - job_name: 'game-recommender-model'
+    scrape_interval: 20s
+    metrics_path: '/'
+    static_configs:
+      - targets: ['ad7e-34-81-191-127.ngrok-free.app']  
