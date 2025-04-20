@@ -8,7 +8,8 @@
 This project was developed to provide **Digital Game Storefronts and Services** (e.g. [Steam](https://store.steampowered.com/), [PSN](https://www.playstation.com/)) with ML models that provide business benefits. These ML models were containerized then deployed on [Railway](https://railway.com/) and linked to a user-friendly UI utilizing Streamlit, accessible via browser.
 ## Dataset
 
-Using [`SteamSpy`](https://steamspy.com/) API and [`SteamDB`](https://steamdb.info/), data on the top 200 most played games on Steam was collected. The training datasets were built based off these 200 games, as explained below.
+Using [`SteamSpy`](https://steamspy.com/) API and [`SteamDB`](https://steamdb.info/), data on the top 200 most played games on Steam was collected. The training datasets were built based off these 200 games, as explained below. 
+All datasets used to train the models can be accessed [`here`](https://drive.google.com/drive/folders/1fFQMx17cBngObj5GBxtfAppgTJzdmTIg?usp=sharing).
 
 ## Internal Endpoints (IEPs)
 
