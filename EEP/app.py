@@ -3,8 +3,8 @@ import requests
 
 app = Flask(__name__)
 
-BASE_URL_IEP1 = "https://iep1-production.up.railway.app"
-BASE_URL_IEP2 = "https://iep2-production.up.railway.app"
+BASE_URL_IEP1 = "https://iep1-503n.up.railway.app"
+BASE_URL_IEP2 = "https://iep2-503n.up.railway.app"
 
 @app.route('/', methods=['GET'])
 def check_status():
