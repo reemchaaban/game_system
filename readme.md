@@ -3,6 +3,7 @@
 This project was developed to provide **Digital Game Storefronts and Services** (e.g. [Steam](https://store.steampowered.com/), [PSN](https://www.playstation.com/)) with ML models that provide business benefits. These ML models were containerized then deployed on [Railway](https://railway.com/) and linked to a user-friendly UI utilizing Streamlit, accessible via browser.
 
 Link to Streamlit web application: https://gamesystemfrontend-production.up.railway.app/
+
 *Note: Since the endpoints are serverless, it may take some time to 'wake' them up.
 
 ## Dataset
