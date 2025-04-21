@@ -1,0 +1,23 @@
+version: "3.9"
+
+services:
+  eep:
+    build:
+      context: ./EEP
+    container_name: eep
+    ports:
+      - "8000:8000"
+
+  iep1:
+    build:
+      context: ./IEP1
+    container_name: iep1
+    ports:
+      - "8001:8001"
+
+  iep2:
+    build:
+      context: ./IEP2
+    container_name: iep2
+    ports:
+      - "8002:8002"
