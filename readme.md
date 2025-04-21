@@ -1,11 +1,10 @@
-
-# RAILWAY BRIEFLY MENTIONED IN CASE WE NEED TO CHANGE IT; WHOLE SECTION LATER
-
-# ADD ACTUAL DEPLOYMENT LINK
-
 # Game System
 
 This project was developed to provide **Digital Game Storefronts and Services** (e.g. [Steam](https://store.steampowered.com/), [PSN](https://www.playstation.com/)) with ML models that provide business benefits. These ML models were containerized then deployed on [Railway](https://railway.com/) and linked to a user-friendly UI utilizing Streamlit, accessible via browser.
+
+Link to Streamlit web application: https://gamesystemfrontend-production.up.railway.app/
+*Note: Since the endpoints are serverless, it may take some time to 'wake' them up.
+
 ## Dataset
 
 Using [`SteamSpy`](https://steamspy.com/) API and [`SteamDB`](https://steamdb.info/), data on the top 200 most played games on Steam was collected. The training datasets were built based off these 200 games, as explained below. 
@@ -59,3 +58,25 @@ A LightFM model that recommends games to gamers based on their existing game lib
 ## External Endpoint (EEP)
 
 A user-friendly UI built through the [Streamlit](https://streamlit.io/) framework and an intermediate [Flask](https://flask.palletsprojects.com/en/stable/) API that handles data validation, querying and providing the responses of the models. The intermediate [Flask](https://flask.palletsprojects.com/en/stable/) app was also containerized separately using [Docker](https://www.docker.com/).
+
+## Deployment 
+
+Each Docker image (IEP1, IEP2, EEP) was deployed on [Railway](https://railway.com/) straight from Docker Hub, given a public URL, and set up as serverless to reduce costs; they can be 'woken up' by a GET request. The frontend was deployed straight from GitHub & also given a public URL and set up as serverless. Railway supports CD for the frontend, as every time you push to the frontent GitHub repository, automatic redeployment of the frontend takes place in Railway.
+
+## Docker Compose
+
+Docker Compose was used to containerize the external endpoint and internal endpoints and orchestrate them.
+- EEP is exposed on port 8000
+- IEP1 is exposed on port 8001
+- IEP2 is exposed on port 8002
+
+To build & start all endpoints:
+```bash
+docker-compose up --build
+```
+- This will build the Docker images from their respective directories (./EEP, ./IEP1, ./IEP2) & start them with the aforementioned port mappings.
+
+To stop them:
+```bash
+docker-compose down
+```
