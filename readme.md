@@ -2,7 +2,7 @@
 
 This project was developed to provide **Digital Game Storefronts and Services** (e.g. [Steam](https://store.steampowered.com/), [PSN](https://www.playstation.com/)) with ML models that provide business benefits. These ML models were containerized then deployed on [Railway](https://railway.com/) and linked to a user-friendly UI utilizing Streamlit, accessible via browser.
 
-Link to Streamlit web application: [https://gamesystemfrontend-production.up.railway.app/](https://gamesystem-503n.up.railway.app/)
+Link to Streamlit web application: [https://gamesystem-503n.up.railway.app/](https://gamesystem-503n.up.railway.app/)
 
 ## Dataset
 
@@ -15,8 +15,8 @@ The following apply to each IEP:
 - It is a model exposed through a [Flask](https://flask.palletsprojects.com/en/stable/) API.
 - Containerized separately using [Docker](https://www.docker.com/) based on the `Dockerfile` in the corresponding folder.
 - Model training metrics are logged by [MLflow](https://mlflow.org/) during the training process.
-- System-level metrics are locked by [Prometheus](https://prometheus.io/) during the training process, and visualized on [Grafana](https://grafana.com/).
--  **Automatic Updates**: If the dataset updates, re-running the training notebook will re-train the model on the new dataset as it pulls the data from **Google Drive**. Then, the new model is automatically pushed to this repository, triggering the GitHub workflow `build_containers.yml`. This workflow checks which of the 2 models was updated, re-builds the corresponding container and pushes it to Docker Hub.
+- System-level metrics are logged by [Prometheus](https://prometheus.io/) during the training process, and visualized on [Grafana](https://grafana.com/).
+-  **Automatic Updates**: If the dataset updates, re-running the training notebook will re-train the model on the new dataset as it pulls the data from **Google Drive**. The new model is then automatically pushed to this repository, triggering the GitHub workflow `build_containers.yml`. This workflow checks which of the 2 models were updated, re-builds the corresponding container and pushes it to Docker Hub.
 -  **Unit and Integration Test**: Tests that verify the query model functions and [Flask](https://flask.palletsprojects.com/en/stable/) API endpoints are working as expected.
 
 ### IEP #1
@@ -60,15 +60,15 @@ A user-friendly UI built through the [Streamlit](https://streamlit.io/) framewor
 
 ## Deployment 
 
-Each Docker image (IEP1, IEP2, EEP) was deployed on [Railway](https://railway.com/) straight from Docker Hub, given a public URL, and set up as serverless to reduce costs; they can be 'woken up' by a GET request. The frontend was deployed straight from GitHub & also given a public URL and set up as serverless. Railway supports CD for the frontend, as every time you push to the frontent GitHub repository, automatic redeployment of the frontend takes place in Railway.
+Each Docker image (IEP1, IEP2, EEP, and frontend) was deployed on [Railway](https://railway.com/) straight from Docker Hub and given a public URL. 
 
 ## Docker Compose
 
 Docker Compose was used to containerize the external endpoint and internal endpoints and orchestrate them.
-- Frontend is exposed on port 8501
-- EEP is exposed on port 8000
-- IEP1 is exposed on port 8001
-- IEP2 is exposed on port 8002
+- Frontend is exposed on port `8501`
+- EEP is exposed on port `8000`
+- IEP1 is exposed on port `8001`
+- IEP2 is exposed on port `8002`
 
 To build & start all images:
 ```bash
@@ -80,3 +80,9 @@ To stop them:
 ```bash
 docker-compose down
 ```
+
+## Swagger 
+
+To document API interactions, I decided to add a Swagger file for the external endpoint, covering all endpoints. Swagger provides a visual interface to interact with the APIs, test the input & output, and validate the format of requests; this is used in the industry to enable frontend/backend collaboration, as it's helpful for understanding how to query the ML models.
+
+To visualize the Swagger file, paste the full `swagger_eep.yaml` file in this repository in the following link: `https://editor.swagger.io/`
