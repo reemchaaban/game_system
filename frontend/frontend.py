@@ -6,12 +6,9 @@ import concurrent.futures
 import time
 import datetime
 
-EEP_WAKE_URL = "https://eep-503n.up.railway.app/"
-IEP1_WAKE_URL = "https://iep1-503n.up.railway.app/"
-IEP2_WAKE_URL = "https://iep2-503n.up.railway.app/"
-
-IEP1_URL = "https://eep-503n.up.railway.app/get-player-count"
-IEP2_URL = "https://eep-503n.up.railway.app/get-recommendations"
+EEP_BASE_URL = "http://eep:5000/"
+IEP1_URL = f"{EEP_BASE_URL}/get-player-count"
+IEP2_URL = f"{EEP_BASE_URL}/get-recommendations"
 
 game_data = pd.read_csv("game_library_data.csv") 
 game_data = game_data[["name", "game_id"]]  
@@ -30,31 +27,6 @@ st.markdown("""
     </style>
     <h1 style='text-align: center;'>🎮 Game System 🎮</h1>
 """, unsafe_allow_html=True)
-
-if "wake_success" not in st.session_state:
-    st.session_state.wake_success = False
-
-col1, col2, col3 = st.columns([2, 2, 1])
-with col2:
-    if st.button("Wake endpoints"):
-        try:
-            urls = [EEP_WAKE_URL, IEP1_WAKE_URL, IEP2_WAKE_URL]
-            with concurrent.futures.ThreadPoolExecutor() as executor:
-                futures = [executor.submit(requests.get, url) for url in urls]
-                results = [future.result() for future in futures]
-            print(results)
-            st.session_state.wake_success = True
-            st.rerun()
-        except Exception as e:
-            st.error(f"Error sending data: {e}")
-
-if st.session_state.wake_success:
-    msg_col1, msg_col2, msg_col3 = st.columns([1, 2, 1])
-    with msg_col2:
-        st.success("All endpoints were successfully pinged!", icon="✅")
-    time.sleep(3) 
-    st.session_state.wake_success = False
-    st.rerun()
 
 st.markdown("---")
 
