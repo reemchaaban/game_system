@@ -2,9 +2,7 @@
 
 This project was developed to provide **Digital Game Storefronts and Services** (e.g. [Steam](https://store.steampowered.com/), [PSN](https://www.playstation.com/)) with ML models that provide business benefits. These ML models were containerized then deployed on [Railway](https://railway.com/) and linked to a user-friendly UI utilizing Streamlit, accessible via browser.
 
-Link to Streamlit web application: https://gamesystemfrontend-production.up.railway.app/
-
-*Note: Since the endpoints are serverless, it may take some time to 'wake' them up.
+Link to Streamlit web application: [https://gamesystemfrontend-production.up.railway.app/](https://gamesystem-503n.up.railway.app/)
 
 ## Dataset
 
@@ -67,15 +65,16 @@ Each Docker image (IEP1, IEP2, EEP) was deployed on [Railway](https://railway.co
 ## Docker Compose
 
 Docker Compose was used to containerize the external endpoint and internal endpoints and orchestrate them.
+- Frontend is exposed on port 8501
 - EEP is exposed on port 8000
 - IEP1 is exposed on port 8001
 - IEP2 is exposed on port 8002
 
-To build & start all endpoints:
+To build & start all images:
 ```bash
 docker-compose up --build
 ```
-- This will build the Docker images from their respective directories (./EEP, ./IEP1, ./IEP2) & start them with the aforementioned port mappings.
+- This will build the Docker images from their respective directories (./frontend, ./EEP, ./IEP1, ./IEP2) & start them with the aforementioned port mappings. After running the above command, go to the following URL to access the Streamlit app locally via browser: `http://localhost:8501/`
 
 To stop them:
 ```bash
