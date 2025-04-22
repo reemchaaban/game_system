@@ -85,4 +85,4 @@ docker-compose down
 
 To document API interactions, I decided to add a Swagger file for the external endpoint, covering all endpoints. Swagger provides a visual interface to interact with the APIs, test the input & output, and validate the format of requests; this is used in the industry to enable frontend/backend collaboration, as it's helpful for understanding how to query the ML models.
 
-To visualize the Swagger file, paste the full `swagger_eep.yaml` file in this repository in the following link: `https://editor.swagger.io/`
+To visualize the Swagger file, paste the full `swagger_eep.yaml` file in this repository in the following link: [https://editor.swagger.io/](https://editor.swagger.io/)
