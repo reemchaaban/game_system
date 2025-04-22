@@ -1,23 +1,35 @@
 version: "3.9"
 
 services:
+  frontend:
+    build:
+      context: ./frontend
+    container_name: frontend
+    ports:
+      - "8501:8501"
+    depends_on:
+      - eep
+
   eep:
     build:
       context: ./EEP
     container_name: eep
     ports:
-      - "8000:8000"
+      - "8000:5000"
+    depends_on:
+      - iep1
+      - iep2
 
   iep1:
     build:
       context: ./IEP1
     container_name: iep1
     ports:
-      - "8001:8001"
+      - "8001:5000"
 
   iep2:
     build:
       context: ./IEP2
     container_name: iep2
     ports:
-      - "8002:8002"
+      - "8002:5000"
